@@ -10,7 +10,7 @@ router.post("/register", async (req, res) => {
   const user = await UserModel.findOne({ username });
 
   if (user) {
-    return res.json({ message: "User already exists!" });
+    return res.status(400).json({ message: "User already exists!" });
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -19,8 +19,6 @@ router.post("/register", async (req, res) => {
   await newUser.save();
 
   res.json({ message: "User Registered Successfully!" });
-
-  res.json(user);
 });
 
 router.post("/login", async (req, res) => {
@@ -44,4 +42,12 @@ export { router as userRouter };
 
 export const verifyToken = (req, res, next) => {
   const token = req.headers.authorization;
+  if (token) {
+    jwt.verify(token, "secret", (err) => {
+      if (err) return res.sendStatus(403);
+      next();
+    });
+  } else {
+    res.sendStatus(401);
+  }
 };

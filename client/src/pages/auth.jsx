@@ -17,7 +17,7 @@ const Login = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
-  const [, setCookies] = useCookies("access_token")
+  const [_, setCookies] = useCookies("access_token")
 
   const navigate = useNavigate()
 
