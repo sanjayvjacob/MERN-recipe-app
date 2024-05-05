@@ -40,4 +40,8 @@ router.post("/login", async (req, res) => {
   res.json({ token, userID: user._id });
 });
 
-export { router as UserRouter };
+export { router as userRouter };
+
+export const verifyToken = (req, res, next) => {
+  const token = req.headers.authorization;
+};
